@@ -47,10 +47,10 @@ func NewDocument(path string) (Document, error) {
 func lines(s string) (lines []string, eol string) {
 	lines = strings.Split(s, "\n")
 	eol = "\n"
-	for _, l := range lines {
+	for i, l := range lines {
 		if len(l) > 0 && l[len(l)-1] == '\r' {
 			eol = "\r\n"
-			l = strings.TrimRight(l, "\r")
+			lines[i] = strings.TrimRight(l, "\r")
 		}
 	}
 	return
