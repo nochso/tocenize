@@ -123,6 +123,13 @@ func (d Document) SuggestTOC(toc TOC) (start, end int) {
 			break
 		}
 	}
+	if len(toc.Headings) > 0 {
+		start = toc.Headings[0].Index
+		if Verbose {
+			log.Printf("chose line %d before first significant heading", start+1)
+		}
+		return start, start
+	}
 	// in doubt, insert at top
 	if Verbose {
 		log.Println("chose first line for new TOC (unable to find root paragraph or existing TOC)")
