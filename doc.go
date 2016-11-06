@@ -3,11 +3,14 @@ package tocenize
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"regexp"
 	"strings"
 
 	"github.com/kylelemons/godebug/diff"
 )
+
+var Verbose = false
 
 type Job struct {
 	MinDepth int
@@ -99,7 +102,9 @@ func (d Document) SuggestTOC(toc TOC) (start, end int) {
 		}
 		if tocLine.Depth > toc.MinDepth() {
 			if minCount == 1 {
-				fmt.Printf("found end of root paragraph on line %d for new TOC\n", tocLine.Index)
+				if Verbose {
+					log.Printf("found end of root paragraph on line %d for new TOC", tocLine.Index)
+				}
 				return tocLine.Index, tocLine.Index
 			}
 			// ## appears before # which is odd
@@ -107,7 +112,9 @@ func (d Document) SuggestTOC(toc TOC) (start, end int) {
 		}
 	}
 	// in doubt, insert at top
-	fmt.Println("chose first line for new TOC (unable to find root paragraph or existing TOC)")
+	if Verbose {
+		log.Println("chose first line for new TOC (unable to find root paragraph or existing TOC)")
+	}
 	return 0, 0
 }
 
@@ -134,8 +141,8 @@ func (d Document) FindTOC() (start, end int) {
 			}
 		}
 	}
-	if start > -1 {
-		fmt.Printf("found existing TOC on lines %d-%d\n", start+1, end+1)
+	if start > -1 && Verbose {
+		log.Printf("found existing TOC on lines %d-%d", start+1, end+1)
 	}
 	return start, end
 }

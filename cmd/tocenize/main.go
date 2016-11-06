@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/nochso/tocenize"
@@ -16,6 +17,7 @@ const (
 )
 
 func main() {
+	log.SetFlags(0)
 	flag.Usage = func() {
 		fmt.Println("tocenize [options] FILE...")
 		fmt.Println()
@@ -27,6 +29,7 @@ func main() {
 	flag.BoolVar(&job.Diff, "d", false, "print diff")
 	flag.BoolVar(&job.Print, "p", false, "print full output")
 	flag.BoolVar(&job.Update, "u", true, "update existing file")
+	flag.BoolVar(&tocenize.Verbose, "v", false, "verbose output")
 	flag.Parse()
 
 	if flag.NArg() == 0 {
@@ -34,6 +37,7 @@ func main() {
 	}
 
 	for _, path := range flag.Args() {
+		log.SetPrefix(path + ": ")
 		doc, err := tocenize.NewDocument(path)
 		if err != nil {
 			exit(err.Error(), ExitInputError)
@@ -45,9 +49,11 @@ func main() {
 
 func exit(msg string, status int) {
 	if status > 0 {
-		fmt.Print("error: ")
+		log.Printf("error: %s", msg)
+	} else {
+		log.Println(msg)
 	}
-	fmt.Println(msg)
-	fmt.Printf("exit code: %d\n", status)
+	log.SetPrefix("")
+	log.Printf("exit code: %d", status)
 	os.Exit(status)
 }
