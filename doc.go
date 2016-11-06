@@ -104,6 +104,8 @@ func (d Document) Update(toc TOC, job Job) error {
 // 	## B
 func (d Document) SuggestTOC(toc TOC) (start, end int) {
 	minCount := 0
+	secCount := 0
+	minIndex := 0
 	for _, tocLine := range toc.Headings {
 		if tocLine.Depth == toc.MinDepth() {
 			minCount++
@@ -111,17 +113,16 @@ func (d Document) SuggestTOC(toc TOC) (start, end int) {
 				// too many root headings
 				break
 			}
+			minIndex = tocLine.Index
 		}
-		if tocLine.Depth > toc.MinDepth() {
-			if minCount == 1 {
-				if Verbose {
-					log.Printf("found end of root paragraph on line %d for new TOC", tocLine.Index+1)
-				}
-				return tocLine.Index, tocLine.Index
-			}
-			// ## appears before # which is odd
-			break
+		if tocLine.Depth > toc.MinDepth() && minCount == 1 && secCount == 0 {
+			secCount++
+			minIndex = tocLine.Index
 		}
+	}
+	if minCount == 1 {
+		log.Printf("found end of root paragraph on line %d", minIndex+1)
+		return minIndex, minIndex
 	}
 	if len(toc.Headings) > 0 {
 		start = toc.Headings[0].Index
