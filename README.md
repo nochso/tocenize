@@ -51,6 +51,7 @@ The output of `tocenize -h` should be self explanatory:
 ```
 tocenize [options] FILE...
 
+  -V    print version
   -d    print full diff to stdout
   -max int
         maximum depth (default 99)

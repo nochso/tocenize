@@ -9,6 +9,8 @@ import (
 	"github.com/nochso/tocenize"
 )
 
+var VERSION = "?"
+
 const (
 	_ = iota // ignore 0-1
 	_
@@ -30,8 +32,13 @@ func main() {
 	flag.BoolVar(&job.Print, "p", false, "print full result to stdout")
 	flag.BoolVar(&job.Update, "u", true, "update existing file")
 	flag.BoolVar(&tocenize.Verbose, "v", false, "verbose output")
+	showVersion := flag.Bool("V", false, "print version")
 	flag.Parse()
 
+	if *showVersion {
+		fmt.Println(VERSION)
+		os.Exit(0)
+	}
 	if flag.NArg() == 0 {
 		log.Println("too few arguments")
 		flag.Usage()
