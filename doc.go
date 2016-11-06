@@ -54,7 +54,7 @@ func (d Document) String() string {
 	return strings.Join(d.Lines, d.eol)
 }
 
-func (d Document) Update(toc TOC, job Job) {
+func (d Document) Update(toc TOC, job Job) error {
 	s, e := d.FindTOC()
 	if s == -1 {
 		s, e = d.SuggestTOC(toc)
@@ -74,7 +74,7 @@ func (d Document) Update(toc TOC, job Job) {
 			fmt.Println()
 		}
 		fmt.Println(diff.Diff(d.String(), nd.String()))
-		return
+		return nil
 	}
 	if job.Print {
 		if Verbose {
@@ -82,15 +82,16 @@ func (d Document) Update(toc TOC, job Job) {
 			fmt.Println()
 		}
 		fmt.Println(nd.String())
-		return
+		return nil
 	}
 	if job.Update {
 		if Verbose {
 			log.Println("updating file")
 		}
-		ioutil.WriteFile(d.Path, []byte(nd.String()), 0644)
-		return
+		err := ioutil.WriteFile(d.Path, []byte(nd.String()), 0644)
+		return err
 	}
+	return nil
 }
 
 // SuggestTOC looks for the first heading below a root heading.
