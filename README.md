@@ -22,6 +22,7 @@ updates it in the given file.
 - Automatic "intelligent" insertion of new TOC
 - Update existing TOC
 - Configurable max. and min. header depth
+- Line endings are kept intact (LF or CRLF is detected and then used for new lines)
 
 
 Installation
