@@ -6,12 +6,15 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/k0kubun/pp"
+	"github.com/kylelemons/godebug/diff"
 )
 
 type Job struct {
 	MinDepth int
 	MaxDepth int
+	Diff     bool
+	Print    bool
+	Update   bool
 }
 
 type Document struct {
@@ -62,8 +65,18 @@ func (d Document) Update(toc TOC, job Job) {
 		}
 		nd.Lines = append(nd.Lines, d.Lines[e:]...)
 	}
-	pp.Println(nd)
-	fmt.Printf("%d %d\n", s, e)
+	if job.Diff {
+		fmt.Println(diff.Diff(d.String(), nd.String()))
+		return
+	}
+	if job.Print {
+		fmt.Println(nd.String())
+		return
+	}
+	if job.Update {
+		ioutil.WriteFile(d.Path, []byte(nd.String()), 0644)
+		return
+	}
 }
 
 // SuggestTOC looks for the first heading below a root heading.

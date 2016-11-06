@@ -24,6 +24,9 @@ func main() {
 	job := tocenize.Job{}
 	flag.IntVar(&job.MinDepth, "min", 1, "minimum depth")
 	flag.IntVar(&job.MaxDepth, "max", 99, "maximum depth")
+	flag.BoolVar(&job.Diff, "d", false, "print diff")
+	flag.BoolVar(&job.Print, "p", false, "print full output")
+	flag.BoolVar(&job.Update, "u", true, "update existing file")
 	flag.Parse()
 
 	if flag.NArg() == 0 {
@@ -37,7 +40,6 @@ func main() {
 		}
 		toc := tocenize.NewTOC(doc, job)
 		doc.Update(toc, job)
-		fmt.Println(toc)
 	}
 }
 
