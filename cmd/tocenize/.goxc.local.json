@@ -1,0 +1,16 @@
+{
+	"ArtifactsDest": "release",
+	"TasksExclude": [
+		"deb",
+		"deb-dev",
+		"downloads-page"
+	],
+	"ConfigVersion": "0.9",
+	"BuildSettings": {
+		"LdFlags": "-s -w",
+		"LdFlagsXVars": {
+			"TimeNow": "main.BUILD_DATE",
+			"Version": "main.VERSION"
+		}
+	}
+}
