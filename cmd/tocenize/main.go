@@ -11,13 +11,6 @@ import (
 
 var VERSION = "?"
 
-const (
-	_ = iota // ignore 0-1
-	_
-	ExitUsageError // 2 as used by flag
-	ExitInputError
-)
-
 func main() {
 	log.SetFlags(0)
 	flag.Usage = func() {
