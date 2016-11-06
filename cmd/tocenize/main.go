@@ -33,7 +33,8 @@ func main() {
 	flag.Parse()
 
 	if flag.NArg() == 0 {
-		fmt.Println("too few arguments")
+		log.Println("too few arguments")
+		flag.Usage()
 		os.Exit(2)
 	}
 
