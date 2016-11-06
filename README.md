@@ -66,7 +66,7 @@ Alternatives
 ------------
 
 - [github.com/axelbellec/gotoc](https://github.com/axelbellec/gotoc) inserts on
-  top and doesn't update existing TOC
+  top, doesn't update existing TOC, doesn't support setext-style headers
 
 
 License
