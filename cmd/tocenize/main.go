@@ -33,27 +33,22 @@ func main() {
 	flag.Parse()
 
 	if flag.NArg() == 0 {
-		exit("too few arguments", ExitUsageError)
+		fmt.Println("too few arguments")
+		os.Exit(2)
 	}
 
 	for _, path := range flag.Args() {
 		log.SetPrefix(path + ": ")
 		doc, err := tocenize.NewDocument(path)
 		if err != nil {
-			exit(err.Error(), ExitInputError)
+			log.Println(err)
+			continue
 		}
 		toc := tocenize.NewTOC(doc, job)
-		doc.Update(toc, job)
+		err = doc.Update(toc, job)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
 	}
-}
-
-func exit(msg string, status int) {
-	if status > 0 {
-		log.Printf("error: %s", msg)
-	} else {
-		log.Println(msg)
-	}
-	log.SetPrefix("")
-	log.Printf("exit code: %d", status)
-	os.Exit(status)
 }
