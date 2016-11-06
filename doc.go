@@ -69,14 +69,25 @@ func (d Document) Update(toc TOC, job Job) {
 		nd.Lines = append(nd.Lines, d.Lines[e:]...)
 	}
 	if job.Diff {
+		if Verbose {
+			log.Println("Diff -old +new")
+			fmt.Println()
+		}
 		fmt.Println(diff.Diff(d.String(), nd.String()))
 		return
 	}
 	if job.Print {
+		if Verbose {
+			log.Println("printing full result")
+			fmt.Println()
+		}
 		fmt.Println(nd.String())
 		return
 	}
 	if job.Update {
+		if Verbose {
+			log.Println("updating file")
+		}
 		ioutil.WriteFile(d.Path, []byte(nd.String()), 0644)
 		return
 	}
