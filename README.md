@@ -9,6 +9,7 @@ Insert and maintain a table of contents in Markdown files.
 	- [From source](#from-source)
 - [Usage](#usage)
 - [Alternatives](#alternatives)
+- [Changes](#changes)
 - [License](#license)
 
 
@@ -70,10 +71,20 @@ Alternatives
   top, doesn't update existing TOC, doesn't support setext-style headers
 
 
+Changes
+-------
+
+All notable changes to this project will be documented in the [changelog].
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
+project adheres to [Semantic Versioning](http://semver.org/).
+
+
 License
 -------
 
 This project is released under the [MIT license](LICENSE).
 
 
+[changelog]: CHANGELOG.md
 [releases]: https://github.com/nochso/tocenize/releases
