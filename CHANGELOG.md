@@ -7,6 +7,8 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [Unreleased]
+### Changed
+- `Document.Update()` now returns `Document, error` instead of just `error`
 
 ## 0.1.0 - 2016-11-06
 ### Added

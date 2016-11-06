@@ -60,7 +60,7 @@ func (d Document) String() string {
 	return strings.Join(d.Lines, d.eol)
 }
 
-func (d Document) Update(toc TOC, job Job) error {
+func (d Document) Update(toc TOC, job Job) (Document, error) {
 	s, e := d.FindTOC()
 	if s == -1 {
 		s, e = d.SuggestTOC(toc)
@@ -78,19 +78,19 @@ func (d Document) Update(toc TOC, job Job) error {
 		vlog("Diff -old +new")
 		log.Println()
 		fmt.Println(diff.Diff(d.String(), nd.String()))
-		return nil
+		return nd, nil
 	}
 	if job.Print {
 		vlog("printing full result")
 		fmt.Println(nd.String())
-		return nil
+		return nd, nil
 	}
 	if job.Update {
 		vlog("updating file")
 		err := ioutil.WriteFile(d.Path, []byte(nd.String()), 0644)
-		return err
+		return nd, err
 	}
-	return nil
+	return nd, nil
 }
 
 // SuggestTOC looks for the first heading below a root heading.

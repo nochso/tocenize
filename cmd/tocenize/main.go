@@ -53,7 +53,7 @@ func main() {
 			continue
 		}
 		toc := tocenize.NewTOC(doc, job)
-		err = doc.Update(toc, job)
+		_, err = doc.Update(toc, job)
 		if err != nil {
 			log.Println(err)
 			continue
