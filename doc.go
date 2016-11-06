@@ -72,6 +72,10 @@ func (d Document) Update(toc TOC, job Job) (Document, error) {
 		for _, tocLine := range toc.Headings {
 			nd.Lines = append(nd.Lines, tocLine.string(toc.MinDepth()))
 		}
+		// Add a new line after inserting a new TOC
+		if s == e && len(toc.Headings) > 0 {
+			nd.Lines = append(nd.Lines, "")
+		}
 		nd.Lines = append(nd.Lines, d.Lines[e:]...)
 	}
 	if job.Diff {

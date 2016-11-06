@@ -10,6 +10,7 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - `Document.Update()` now returns `Document, error` instead of just `error`
+- Insert new line when inserting a TOC for the first time.
 
 ### Fixed
 - Fixed wrong behaviour of CRLF endings because of ineffectual assignment.
