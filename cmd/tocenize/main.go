@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+
+	"github.com/nochso/tocenize"
 )
 
 const (
@@ -19,7 +21,7 @@ func main() {
 		fmt.Println()
 		flag.PrintDefaults()
 	}
-	job := Job{}
+	job := tocenize.Job{}
 	flag.IntVar(&job.MinDepth, "min", 1, "minimum depth")
 	flag.IntVar(&job.MaxDepth, "max", 99, "maximum depth")
 	flag.Parse()
@@ -29,16 +31,14 @@ func main() {
 	}
 
 	for _, path := range flag.Args() {
-		doc := NewDocument(path)
-		toc := NewTOC(doc, job)
+		doc, err := tocenize.NewDocument(path)
+		if err != nil {
+			exit(err.Error(), ExitInputError)
+		}
+		toc := tocenize.NewTOC(doc, job)
 		doc.Update(toc, job)
 		fmt.Println(toc)
 	}
-}
-
-type Job struct {
-	MinDepth int
-	MaxDepth int
 }
 
 func exit(msg string, status int) {

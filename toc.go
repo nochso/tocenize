@@ -1,4 +1,4 @@
-package main
+package tocenize
 
 import (
 	"bytes"

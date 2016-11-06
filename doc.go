@@ -1,4 +1,4 @@
-package main
+package tocenize
 
 import (
 	"fmt"
@@ -9,23 +9,27 @@ import (
 	"github.com/k0kubun/pp"
 )
 
+type Job struct {
+	MinDepth int
+	MaxDepth int
+}
+
 type Document struct {
 	Path  string
 	Lines []string
 	eol   string
 }
 
-func NewDocument(path string) Document {
-	b, err := ioutil.ReadFile(path)
-	if err != nil {
-		exit(err.Error(), ExitInputError)
-	}
+func NewDocument(path string) (Document, error) {
 	doc := Document{
 		Path: path,
-		// Lines: strings.SplitAfter(string(b), "\n"),
+	}
+	b, err := ioutil.ReadFile(path)
+	if err != nil {
+		return doc, err
 	}
 	doc.Lines, doc.eol = lines(string(b))
-	return doc
+	return doc, nil
 }
 
 func lines(s string) (lines []string, eol string) {
