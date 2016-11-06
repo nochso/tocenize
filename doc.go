@@ -12,6 +12,12 @@ import (
 
 var Verbose = false
 
+func vlog(s string) {
+	if Verbose {
+		log.Println(s)
+	}
+}
+
 type Job struct {
 	MinDepth int
 	MaxDepth int
@@ -69,25 +75,18 @@ func (d Document) Update(toc TOC, job Job) error {
 		nd.Lines = append(nd.Lines, d.Lines[e:]...)
 	}
 	if job.Diff {
-		if Verbose {
-			log.Println("Diff -old +new")
-			fmt.Println()
-		}
+		vlog("Diff -old +new")
+		log.Println()
 		fmt.Println(diff.Diff(d.String(), nd.String()))
 		return nil
 	}
 	if job.Print {
-		if Verbose {
-			log.Println("printing full result")
-			fmt.Println()
-		}
+		vlog("printing full result")
 		fmt.Println(nd.String())
 		return nil
 	}
 	if job.Update {
-		if Verbose {
-			log.Println("updating file")
-		}
+		vlog("updating file")
 		err := ioutil.WriteFile(d.Path, []byte(nd.String()), 0644)
 		return err
 	}
@@ -121,20 +120,16 @@ func (d Document) SuggestTOC(toc TOC) (start, end int) {
 		}
 	}
 	if minCount == 1 {
-		log.Printf("found end of root paragraph on line %d", minIndex+1)
+		vlog(fmt.Sprintf("found end of root paragraph on line %d", minIndex+1))
 		return minIndex, minIndex
 	}
 	if len(toc.Headings) > 0 {
 		start = toc.Headings[0].Index
-		if Verbose {
-			log.Printf("chose line %d before first significant heading", start+1)
-		}
+		vlog(fmt.Sprintf("chose line %d before first significant heading", start+1))
 		return start, start
 	}
 	// in doubt, insert at top
-	if Verbose {
-		log.Println("chose first line for new TOC (unable to find root paragraph or existing TOC)")
-	}
+	vlog("chose first line for new TOC (unable to find root paragraph or existing TOC)")
 	return 0, 0
 }
 
@@ -161,8 +156,8 @@ func (d Document) FindTOC() (start, end int) {
 			}
 		}
 	}
-	if start > -1 && Verbose {
-		log.Printf("found existing TOC on lines %d-%d", start+1, end+1)
+	if start > -1 {
+		vlog(fmt.Sprintf("found existing TOC on lines %d-%d", start+1, end+1))
 	}
 	return start, end
 }
