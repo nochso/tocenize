@@ -115,7 +115,7 @@ func (d Document) SuggestTOC(toc TOC) (start, end int) {
 		if tocLine.Depth > toc.MinDepth() {
 			if minCount == 1 {
 				if Verbose {
-					log.Printf("found end of root paragraph on line %d for new TOC", tocLine.Index)
+					log.Printf("found end of root paragraph on line %d for new TOC", tocLine.Index+1)
 				}
 				return tocLine.Index, tocLine.Index
 			}
@@ -142,7 +142,7 @@ func (d Document) FindTOC() (start, end int) {
 				curStart = i
 				isToc = true
 			}
-			curEnd = i
+			curEnd = i + 1
 			continue
 		}
 		if isToc {
