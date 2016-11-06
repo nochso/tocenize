@@ -57,7 +57,7 @@ func (d Document) Update(toc TOC, job Job) {
 	if s > -1 && e > -1 {
 		nd.Lines = make([]string, s)
 		copy(nd.Lines, d.Lines[:s])
-		for _, tocLine := range toc {
+		for _, tocLine := range toc.Headings {
 			nd.Lines = append(nd.Lines, tocLine.string(toc.MinDepth()))
 		}
 		nd.Lines = append(nd.Lines, d.Lines[e:]...)
@@ -76,7 +76,7 @@ func (d Document) Update(toc TOC, job Job) {
 // 	## B
 func (d Document) SuggestTOC(toc TOC) (start, end int) {
 	minCount := 0
-	for _, tocLine := range toc {
+	for _, tocLine := range toc.Headings {
 		if tocLine.Depth == toc.MinDepth() {
 			minCount++
 			if minCount > 1 {
