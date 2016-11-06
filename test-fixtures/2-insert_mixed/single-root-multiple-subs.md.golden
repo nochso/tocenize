@@ -1,0 +1,14 @@
+# root heading
+blah blah
+
+- [root heading](#root-heading)
+	- [1st sub](#1st-sub)
+	- [2nd sub](#2nd-sub)
+		- [subsub](#subsub)
+## 1st sub
+blah
+
+## 2nd sub
+blah
+
+### subsub
