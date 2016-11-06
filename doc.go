@@ -44,6 +44,10 @@ func lines(s string) (lines []string, eol string) {
 	return
 }
 
+func (d Document) String() string {
+	return strings.Join(d.Lines, d.eol)
+}
+
 func (d Document) Update(toc TOC, job Job) {
 	s, e := d.FindTOC()
 	if s == -1 {
