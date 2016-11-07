@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+
+	"github.com/writeas/go-strip-markdown"
 )
 
 type Heading struct {
@@ -41,15 +43,32 @@ func (h Heading) string(minDepth int) string {
 	return fmt.Sprintf(
 		"%s- [%s](%s)",
 		strings.Repeat("\t", h.Depth-minDepth),
-		h.Title,
+		h.LinkTitle(),
 		h.Anchor(),
 	)
+}
+
+var (
+	reLink  = regexp.MustCompile(`\[(.*?)\][\[\(].*?[\]\)]`)
+	reImage = regexp.MustCompile(`\!\[.*?\]\s?[\[\(].*?[\]\)]`)
+)
+
+// LinkTitle returns a cleaned up title for use in links.
+// It removes Markdown images and links, keeping only the link text.
+func (h Heading) LinkTitle() string {
+	t := h.Title
+	t = reLink.ReplaceAllString(t, "$1") // remove links, keeping the text
+	t = reImage.ReplaceAllString(t, "")  // remove images
+	t = strings.TrimSpace(t)
+	return t
 }
 
 var rePunct = regexp.MustCompile(`([^\w -]+)`)
 
 func (h Heading) Anchor() string {
-	a := strings.ToLower(h.Title)
+	// Strip Markdown
+	a := stripmd.Strip(h.Title)
+	a = strings.ToLower(a)
 	a = rePunct.ReplaceAllString(a, "")
 	a = strings.Replace(a, " ", "-", -1)
 	if h.UniqueCounter > 0 {
