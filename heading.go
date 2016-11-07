@@ -7,9 +7,10 @@ import (
 )
 
 type Heading struct {
-	Title string
-	Depth int
-	Index int
+	Title         string
+	Depth         int
+	Index         int
+	UniqueCounter int
 }
 
 func NewHeadingATX(line string, index int) *Heading {
@@ -51,5 +52,8 @@ func (h Heading) Anchor() string {
 	a := strings.ToLower(h.Title)
 	a = rePunct.ReplaceAllString(a, "")
 	a = strings.Replace(a, " ", "-", -1)
-	return "#" + a
+	if h.UniqueCounter > 0 {
+		a = fmt.Sprintf("%s-%d", a, h.UniqueCounter)
+	}
+	return fmt.Sprintf("#%s", a)
 }

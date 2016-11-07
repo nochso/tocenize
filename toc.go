@@ -38,6 +38,7 @@ func (t TOC) String() string {
 func NewTOC(doc Document, pj Job) TOC {
 	toc := TOC{eol: doc.eol}
 	prevLine := ""
+	anchors := make(map[string]int)
 	var heading *Heading
 	for i, l := range doc.Lines {
 		heading = nil
@@ -46,8 +47,16 @@ func NewTOC(doc Document, pj Job) TOC {
 		} else if prevLine != "" && l != "" && (strings.Trim(l, "=") == "" || strings.Trim(l, "-") == "") {
 			heading = NewHeadingSE(prevLine, string(l[0]), i-1)
 		}
-		if heading != nil && heading.Depth <= pj.MaxDepth && heading.Depth >= pj.MinDepth {
-			toc.Headings = append(toc.Headings, *heading)
+		if heading != nil {
+			// increment counter each time we see this anchor
+			count, _ := anchors[heading.Anchor()]
+			anchors[heading.Anchor()] = count + 1
+			heading.UniqueCounter = count
+
+			// remember only at desired depth
+			if heading.Depth <= pj.MaxDepth && heading.Depth >= pj.MinDepth {
+				toc.Headings = append(toc.Headings, *heading)
+			}
 		}
 		prevLine = l
 	}
