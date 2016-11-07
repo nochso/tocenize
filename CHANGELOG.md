@@ -11,10 +11,14 @@ project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - `Document.Update()` now returns `Document, error` instead of just `error`
 - Insert new line when inserting a TOC for the first time.
+- Markdown is stripped from anchors and link texts.
+    - Link texts get stripped of images and links (excl. text)
+    - Anchors are stripped of all Markdown.
 
 ### Fixed
 - Fixed wrong behaviour of CRLF endings because of ineffectual assignment.
-
+- Duplicate headings did not have unique anchor links. They are now numbered
+  the same way as Github does it.
 
 ## 0.1.0 - 2016-11-06
 
