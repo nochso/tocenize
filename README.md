@@ -23,9 +23,11 @@ Features
 tocenize generates a TOC (table of content) from Markdown files and inserts or
 updates it in the given file.
 
+- Cross-platform command line utility
+  - Windows, Linux, Mac and *bsd (anything the Go compiler will handle)
 - Anchor links are compatible to GFM (Github flavoured Markdown)
 - Automatic "intelligent" insertion of new TOC
-- Update existing TOC
+- Update existing TOCs without moving it
 - Configurable max. and min. header depth
 - Line endings are kept intact (LF or CRLF is detected and then used for new lines)
 
@@ -92,3 +94,4 @@ This project is released under the [MIT license](LICENSE).
 
 [changelog]: CHANGELOG.md
 [releases]: https://github.com/nochso/tocenize/releases
+[Go]: https://golang.org
