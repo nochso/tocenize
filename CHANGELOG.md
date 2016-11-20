@@ -8,6 +8,9 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Added flag `-e` to update only existing TOCs.
+
 ### Changed
 - `Document.Update()` now returns `Document, error` instead of just `error`
 - Insert new line when inserting a TOC for the first time.

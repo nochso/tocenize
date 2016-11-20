@@ -23,6 +23,7 @@ func main() {
 	flag.IntVar(&job.MaxDepth, "max", 99, "maximum depth")
 	flag.BoolVar(&job.Diff, "d", false, "print full diff to stdout")
 	flag.BoolVar(&job.Print, "p", false, "print full result to stdout")
+	flag.BoolVar(&job.ExistingOnly, "e", false, "update only existing TOC (no insert)")
 	flag.BoolVar(&tocenize.Verbose, "v", false, "verbose output")
 	showVersion := flag.Bool("V", false, "print version")
 	flag.Parse()

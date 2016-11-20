@@ -19,10 +19,11 @@ func vlog(s string) {
 }
 
 type Job struct {
-	MinDepth int
-	MaxDepth int
-	Diff     bool
-	Print    bool
+	MinDepth     int
+	MaxDepth     int
+	Diff         bool
+	Print        bool
+	ExistingOnly bool
 }
 
 type Document struct {
@@ -62,6 +63,10 @@ func (d Document) String() string {
 func (d Document) Update(toc TOC, job Job) (Document, error) {
 	s, e := d.FindTOC()
 	if s == -1 {
+		if job.ExistingOnly {
+			vlog("no existing TOC; did not update")
+			return d, nil
+		}
 		s, e = d.SuggestTOC(toc)
 	}
 	nd := Document{Path: d.Path, eol: d.eol}
