@@ -32,10 +32,11 @@ project adheres to [Semantic Versioning](http://semver.org/).
   not set.
 
 
-## 0.1.0 - 2016-11-06
+## [0.1.0] - 2016-11-06
 
 ### Added
 - Initial public release.
 
-[Unreleased]: https://github.com/nochso/tocenize/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/nochso/tocenize/compare/0.2.0...HEAD
 [0.2.0]: https://github.com/nochso/tocenize/compare/0.1.0...0.2.0
+[0.1.0]: https://github.com/nochso/tocenize/compare/37dbbf6741f917c976cc77cfc84be81ea5d86e7d...0.1.0
