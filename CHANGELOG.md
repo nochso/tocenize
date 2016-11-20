@@ -17,6 +17,7 @@ project adheres to [Semantic Versioning](http://semver.org/).
 - Markdown is stripped from anchors and link texts.
     - Link texts get stripped of images and links (excl. text)
     - Anchors are stripped of all Markdown.
+- Parse given file paths using [`filepath.Glob`](https://golang.org/pkg/path/filepath/#Glob).
 
 ### Fixed
 - Fixed wrong behaviour of CRLF endings because of ineffectual assignment.

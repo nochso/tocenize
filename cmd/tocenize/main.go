@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/nochso/tocenize"
 )
@@ -38,18 +39,26 @@ func main() {
 		os.Exit(2)
 	}
 
-	for _, path := range flag.Args() {
-		log.SetPrefix(path + ": ")
-		doc, err := tocenize.NewDocument(path)
+	for _, arg := range flag.Args() {
+		paths, err := filepath.Glob(arg)
 		if err != nil {
 			log.Println(err)
 			continue
 		}
-		toc := tocenize.NewTOC(doc, job)
-		_, err = doc.Update(toc, job)
-		if err != nil {
-			log.Println(err)
-			continue
+
+		for _, path := range paths {
+			log.SetPrefix(path + ": ")
+			doc, err := tocenize.NewDocument(path)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+			toc := tocenize.NewTOC(doc, job)
+			_, err = doc.Update(toc, job)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
 		}
 	}
 }
