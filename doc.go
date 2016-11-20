@@ -23,7 +23,6 @@ type Job struct {
 	MaxDepth int
 	Diff     bool
 	Print    bool
-	Update   bool
 }
 
 type Document struct {
@@ -89,12 +88,9 @@ func (d Document) Update(toc TOC, job Job) (Document, error) {
 		fmt.Println(nd.String())
 		return nd, nil
 	}
-	if job.Update {
-		vlog("updating file")
-		err := ioutil.WriteFile(d.Path, []byte(nd.String()), 0644)
-		return nd, err
-	}
-	return nd, nil
+	vlog("updating file")
+	err := ioutil.WriteFile(d.Path, []byte(nd.String()), 0644)
+	return nd, err
 }
 
 // SuggestTOC looks for the first heading below a root heading.
