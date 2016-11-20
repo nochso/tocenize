@@ -8,6 +8,9 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+
+## [0.2.0] - 2016-11-20
+
 ### Added
 - Added flag `-e` to update only existing TOCs.
 
@@ -35,3 +38,4 @@ project adheres to [Semantic Versioning](http://semver.org/).
 - Initial public release.
 
 [Unreleased]: https://github.com/nochso/tocenize/compare/0.1.0...HEAD
+[0.2.0]: https://github.com/nochso/tocenize/compare/0.1.0...0.2.0
