@@ -64,12 +64,12 @@ tocenize [options] FILE...
 
   -V    print version
   -d    print full diff to stdout
+  -e    update only existing TOC (no insert)
   -max int
         maximum depth (default 99)
   -min int
         minimum depth (default 1)
   -p    print full result to stdout
-  -u    update existing file (default true)
   -v    verbose output
 ```
 
