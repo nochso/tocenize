@@ -40,6 +40,8 @@ Installation
 
 Compiled binaries are available on the [releases page][releases].
 
+Make sure to place it somewhere in your `$PATH`.
+
 
 ### From source
 
@@ -49,6 +51,8 @@ If you have a working Go environment, simply run:
 go install github.com/nochso/tocenize/cmd/tocenize
 ```
 
+If you've added `$GOPATH/bin` to your `$PATH`, you can now run `tocenize` from
+anywhere.
 
 Usage
 -----
