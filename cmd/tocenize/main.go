@@ -22,6 +22,7 @@ func main() {
 	job := tocenize.Job{}
 	flag.IntVar(&job.MinDepth, "min", 1, "minimum depth")
 	flag.IntVar(&job.MaxDepth, "max", 99, "maximum depth")
+	flag.StringVar(&tocenize.Indent, "indent", "\t", "string used for nesting")
 	flag.BoolVar(&job.Diff, "d", false, "print full diff to stdout")
 	flag.BoolVar(&job.Print, "p", false, "print full result to stdout")
 	flag.BoolVar(&job.ExistingOnly, "e", false, "update only existing TOC (no insert)")

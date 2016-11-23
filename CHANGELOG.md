@@ -8,6 +8,9 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- New flag `-indent` to change the indentation string for nested lists (default `\t`)
+
 
 ## [0.2.0] - 2016-11-20
 

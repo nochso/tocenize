@@ -8,6 +8,9 @@ import (
 	"github.com/writeas/go-strip-markdown"
 )
 
+// Indent string used for nesting. See `-indent`.
+var Indent = "\t"
+
 type Heading struct {
 	Title         string
 	Depth         int
@@ -42,7 +45,7 @@ func (h Heading) String() string {
 func (h Heading) string(minDepth int) string {
 	return fmt.Sprintf(
 		"%s- [%s](%s)",
-		strings.Repeat("\t", h.Depth-minDepth),
+		strings.Repeat(Indent, h.Depth-minDepth),
 		h.LinkTitle(),
 		h.Anchor(),
 	)
