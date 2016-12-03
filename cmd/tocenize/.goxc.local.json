@@ -5,6 +5,7 @@
 		"deb-dev",
 		"downloads-page"
 	],
+	"BuildConstraints": "!plan9",
 	"ConfigVersion": "0.9",
 	"BuildSettings": {
 		"LdFlags": "-s -w",
