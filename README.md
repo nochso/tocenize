@@ -64,15 +64,16 @@ The output of `tocenize -h` should be self explanatory:
 ```
 tocenize [options] FILE...
 
-  -V    print version
   -d    print full diff to stdout
   -e    update only existing TOC (no insert)
+  -indent string
+        string used for nesting (default "\t")
   -max int
         maximum depth (default 99)
   -min int
         minimum depth (default 1)
   -p    print full result to stdout
-  -v    verbose output
+  -v    print version
 ```
 
 
