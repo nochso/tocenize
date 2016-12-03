@@ -28,8 +28,7 @@ func main() {
 	flag.BoolVar(&job.Diff, "d", false, "print full diff to stdout")
 	flag.BoolVar(&job.Print, "p", false, "print full result to stdout")
 	flag.BoolVar(&job.ExistingOnly, "e", false, "update only existing TOC (no insert)")
-	flag.BoolVar(&tocenize.Verbose, "v", false, "verbose output")
-	showVersion := flag.Bool("V", false, "print version")
+	showVersion := flag.Bool("v", false, "print version")
 	flag.Parse()
 
 	if *showVersion {
@@ -50,47 +49,37 @@ func main() {
 		}
 
 		for _, path := range paths {
-			updateFile(path, job)
+			log.SetPrefix(path + ": ")
+			err = updateFile(path, job)
+			if err != nil {
+				log.Println(err)
+			}
 		}
+		log.SetPrefix("")
 	}
 }
 
-func updateFile(path string, job tocenize.Job) {
-	log.SetPrefix(path + ": ")
+func updateFile(path string, job tocenize.Job) error {
 	doc, err := tocenize.NewDocument(path)
 	if err != nil {
-		log.Println(err)
-		return
+		return err
 	}
 	toc := tocenize.NewTOC(doc, job)
 	newDoc, err := doc.Update(toc, job.ExistingOnly)
 	if err != nil {
-		log.Println(err)
-		return
+		return err
 	}
 	if job.Diff {
-		vlog("Diff -old +new")
 		log.Println()
 		d := diff.Diff(doc.String(), newDoc.String())
 		if d != "" {
 			fmt.Println(d)
 		}
-		return
+		return nil
 	}
 	if job.Print {
-		vlog("printing full result")
 		fmt.Println(newDoc.String())
-		return
+		return nil
 	}
-	vlog("updating file")
-	err = ioutil.WriteFile(doc.Path, []byte(newDoc.String()), 0644)
-	if err != nil {
-		log.Println(err)
-	}
-}
-
-func vlog(s string) {
-	if tocenize.Verbose {
-		log.Println(s)
-	}
+	return ioutil.WriteFile(doc.Path, []byte(newDoc.String()), 0644)
 }

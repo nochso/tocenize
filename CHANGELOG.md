@@ -11,6 +11,11 @@ project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - New flag `-indent` to change the indentation string for nested lists (default `\t`)
 
+### Removed
+- Removed verbosity flag `-v` and is now used for version display.
+
+### Changed
+- Flag `-V` is now `-v`, replacing verbosity.
 
 ## [0.2.0] - 2016-11-20
 
