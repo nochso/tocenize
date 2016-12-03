@@ -7,9 +7,11 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
-	difflib "github.com/kylelemons/godebug/diff"
+	"github.com/fatih/color"
 	"github.com/nochso/tocenize"
+	"github.com/pmezard/go-difflib/difflib"
 )
 
 var VERSION = "?"
@@ -83,12 +85,31 @@ func runAction(path string, job tocenize.Job, action actionFunc) error {
 }
 
 func diff(job tocenize.Job, a, b tocenize.Document) error {
-	log.Println()
-	d := difflib.Diff(a.String(), b.String())
-	if d != "" {
-		fmt.Println(d)
+	ud := difflib.UnifiedDiff{
+		A:        strings.SplitAfter(a.String(), "\n"),
+		B:        strings.SplitAfter(b.String(), "\n"),
+		Context:  3,
+		FromFile: a.Path + " (old)",
+		ToFile:   a.Path + " (new)",
 	}
-	return nil
+	diff, err := difflib.GetUnifiedDiffString(ud)
+	lines := strings.Split(diff, "\n")
+	for i, line := range lines {
+		if i+1 == len(lines) {
+			break
+		}
+		switch line[0] {
+		case '+':
+			line = color.GreenString("%s", line)
+		case '-':
+			line = color.RedString("%s", line)
+		case '@':
+			line = color.YellowString("%s", line)
+		}
+		lines[i] = line
+	}
+	fmt.Print(strings.Join(lines, "\n"))
+	return err
 }
 
 func print(job tocenize.Job, a, b tocenize.Document) error {

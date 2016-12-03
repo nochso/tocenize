@@ -16,6 +16,7 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Flag `-V` is now `-v`, replacing verbosity.
+- Diffs are now colourful and limited to 3 lines of context.
 
 ## [0.2.0] - 2016-11-20
 
