@@ -4,6 +4,8 @@ tocenize
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![GitHub release](https://img.shields.io/github/release/nochso/tocenize.svg)](https://github.com/nochso/tocenize/releases)
 [![Go Report Card](https://goreportcard.com/badge/github.com/nochso/tocenize)](https://goreportcard.com/report/github.com/nochso/tocenize)
+[![Build Status](https://travis-ci.org/nochso/tocenize.svg?branch=master)](https://travis-ci.org/nochso/tocenize)
+[![Coverage Status](https://coveralls.io/repos/github/nochso/tocenize/badge.svg?branch=master)](https://coveralls.io/github/nochso/tocenize?branch=master)
 
 Insert and maintain a table of contents in Markdown files.
 
