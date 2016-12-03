@@ -1,20 +1,10 @@
 package tocenize
 
 import (
-	"fmt"
 	"io/ioutil"
-	"log"
 	"regexp"
 	"strings"
 )
-
-var Verbose = false
-
-func vlog(s string) {
-	if Verbose {
-		log.Println(s)
-	}
-}
 
 type Job struct {
 	MinDepth     int
@@ -60,7 +50,6 @@ func (d Document) Update(toc TOC, existingOnly bool) (Document, error) {
 	s, e := d.FindTOC()
 	if s == -1 {
 		if existingOnly {
-			vlog("no existing TOC; did not update")
 			return d, nil
 		}
 		s, e = d.SuggestTOC(toc)
@@ -108,16 +97,13 @@ func (d Document) SuggestTOC(toc TOC) (start, end int) {
 		}
 	}
 	if minCount == 1 {
-		vlog(fmt.Sprintf("found end of root paragraph on line %d", minIndex+1))
 		return minIndex, minIndex
 	}
 	if len(toc.Headings) > 0 {
 		start = toc.Headings[0].Index
-		vlog(fmt.Sprintf("chose line %d before first significant heading", start+1))
 		return start, start
 	}
 	// in doubt, insert at top
-	vlog("chose first line for new TOC (unable to find root paragraph or existing TOC)")
 	return 0, 0
 }
 
@@ -143,9 +129,6 @@ func (d Document) FindTOC() (start, end int) {
 				end = curEnd
 			}
 		}
-	}
-	if start > -1 {
-		vlog(fmt.Sprintf("found existing TOC on lines %d-%d", start+1, end+1))
 	}
 	return start, end
 }
