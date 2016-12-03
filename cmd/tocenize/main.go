@@ -58,25 +58,28 @@ func main() {
 
 		for _, path := range paths {
 			log.SetPrefix(path + ": ")
-
-			doc, err := tocenize.NewDocument(path)
-			if err != nil {
-				log.Println(err)
-				continue
-			}
-			toc := tocenize.NewTOC(doc, job)
-			newDoc, err := doc.Update(toc, job.ExistingOnly)
-			if err != nil {
-				log.Println(err)
-				continue
-			}
-			action(job, doc, newDoc)
+			err = runAction(path, job, action)
 			if err != nil {
 				log.Println(err)
 			}
 		}
 		log.SetPrefix("")
 	}
+}
+
+type actionFunc func(job tocenize.Job, a, b tocenize.Document) error
+
+func runAction(path string, job tocenize.Job, action actionFunc) error {
+	doc, err := tocenize.NewDocument(path)
+	if err != nil {
+		return err
+	}
+	toc := tocenize.NewTOC(doc, job)
+	newDoc, err := doc.Update(toc, job.ExistingOnly)
+	if err != nil {
+		return err
+	}
+	return action(job, doc, newDoc)
 }
 
 func diff(job tocenize.Job, a, b tocenize.Document) error {
