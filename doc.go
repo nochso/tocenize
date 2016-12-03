@@ -19,8 +19,6 @@ func vlog(s string) {
 type Job struct {
 	MinDepth     int
 	MaxDepth     int
-	Diff         bool
-	Print        bool
 	ExistingOnly bool
 }
 

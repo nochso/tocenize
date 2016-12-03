@@ -8,7 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/kylelemons/godebug/diff"
+	difflib "github.com/kylelemons/godebug/diff"
 	"github.com/nochso/tocenize"
 )
 
@@ -25,8 +25,8 @@ func main() {
 	flag.IntVar(&job.MinDepth, "min", 1, "minimum depth")
 	flag.IntVar(&job.MaxDepth, "max", 99, "maximum depth")
 	flag.StringVar(&tocenize.Indent, "indent", "\t", "string used for nesting")
-	flag.BoolVar(&job.Diff, "d", false, "print full diff to stdout")
-	flag.BoolVar(&job.Print, "p", false, "print full result to stdout")
+	doDiff := flag.Bool("d", false, "print full diff to stdout")
+	doPrint := flag.Bool("p", false, "print full result to stdout")
 	flag.BoolVar(&job.ExistingOnly, "e", false, "update only existing TOC (no insert)")
 	showVersion := flag.Bool("v", false, "print version")
 	flag.Parse()
@@ -41,6 +41,14 @@ func main() {
 		os.Exit(2)
 	}
 
+	action := update
+	if *doDiff {
+		action = diff
+	}
+	if *doPrint {
+		action = print
+	}
+
 	for _, arg := range flag.Args() {
 		paths, err := filepath.Glob(arg)
 		if err != nil {
@@ -50,7 +58,19 @@ func main() {
 
 		for _, path := range paths {
 			log.SetPrefix(path + ": ")
-			err = updateFile(path, job)
+
+			doc, err := tocenize.NewDocument(path)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+			toc := tocenize.NewTOC(doc, job)
+			newDoc, err := doc.Update(toc, job.ExistingOnly)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+			action(job, doc, newDoc)
 			if err != nil {
 				log.Println(err)
 			}
@@ -59,27 +79,20 @@ func main() {
 	}
 }
 
-func updateFile(path string, job tocenize.Job) error {
-	doc, err := tocenize.NewDocument(path)
-	if err != nil {
-		return err
+func diff(job tocenize.Job, a, b tocenize.Document) error {
+	log.Println()
+	d := difflib.Diff(a.String(), b.String())
+	if d != "" {
+		fmt.Println(d)
 	}
-	toc := tocenize.NewTOC(doc, job)
-	newDoc, err := doc.Update(toc, job.ExistingOnly)
-	if err != nil {
-		return err
-	}
-	if job.Diff {
-		log.Println()
-		d := diff.Diff(doc.String(), newDoc.String())
-		if d != "" {
-			fmt.Println(d)
-		}
-		return nil
-	}
-	if job.Print {
-		fmt.Println(newDoc.String())
-		return nil
-	}
-	return ioutil.WriteFile(doc.Path, []byte(newDoc.String()), 0644)
+	return nil
+}
+
+func print(job tocenize.Job, a, b tocenize.Document) error {
+	fmt.Println(b.String())
+	return nil
+}
+
+func update(job tocenize.Job, a, b tocenize.Document) error {
+	return ioutil.WriteFile(b.Path, []byte(b.String()), 0644)
 }
