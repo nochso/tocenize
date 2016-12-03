@@ -6,8 +6,6 @@ import (
 	"log"
 	"regexp"
 	"strings"
-
-	"github.com/kylelemons/godebug/diff"
 )
 
 var Verbose = false
@@ -60,10 +58,10 @@ func (d Document) String() string {
 	return strings.Join(d.Lines, d.eol)
 }
 
-func (d Document) Update(toc TOC, job Job) (Document, error) {
+func (d Document) Update(toc TOC, existingOnly bool) (Document, error) {
 	s, e := d.FindTOC()
 	if s == -1 {
-		if job.ExistingOnly {
+		if existingOnly {
 			vlog("no existing TOC; did not update")
 			return d, nil
 		}
@@ -82,20 +80,7 @@ func (d Document) Update(toc TOC, job Job) (Document, error) {
 		}
 		nd.Lines = append(nd.Lines, d.Lines[e:]...)
 	}
-	if job.Diff {
-		vlog("Diff -old +new")
-		log.Println()
-		fmt.Println(diff.Diff(d.String(), nd.String()))
-		return nd, nil
-	}
-	if job.Print {
-		vlog("printing full result")
-		fmt.Println(nd.String())
-		return nd, nil
-	}
-	vlog("updating file")
-	err := ioutil.WriteFile(d.Path, []byte(nd.String()), 0644)
-	return nd, err
+	return nd, nil
 }
 
 // SuggestTOC looks for the first heading below a root heading.

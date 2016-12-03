@@ -3,10 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 
+	"github.com/kylelemons/godebug/diff"
 	"github.com/nochso/tocenize"
 )
 
@@ -48,18 +50,47 @@ func main() {
 		}
 
 		for _, path := range paths {
-			log.SetPrefix(path + ": ")
-			doc, err := tocenize.NewDocument(path)
-			if err != nil {
-				log.Println(err)
-				continue
-			}
-			toc := tocenize.NewTOC(doc, job)
-			_, err = doc.Update(toc, job)
-			if err != nil {
-				log.Println(err)
-				continue
-			}
+			updateFile(path, job)
 		}
+	}
+}
+
+func updateFile(path string, job tocenize.Job) {
+	log.SetPrefix(path + ": ")
+	doc, err := tocenize.NewDocument(path)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	toc := tocenize.NewTOC(doc, job)
+	newDoc, err := doc.Update(toc, job.ExistingOnly)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	if job.Diff {
+		vlog("Diff -old +new")
+		log.Println()
+		d := diff.Diff(doc.String(), newDoc.String())
+		if d != "" {
+			fmt.Println(d)
+		}
+		return
+	}
+	if job.Print {
+		vlog("printing full result")
+		fmt.Println(newDoc.String())
+		return
+	}
+	vlog("updating file")
+	err = ioutil.WriteFile(doc.Path, []byte(newDoc.String()), 0644)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func vlog(s string) {
+	if tocenize.Verbose {
+		log.Println(s)
 	}
 }
