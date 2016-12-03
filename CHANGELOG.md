@@ -8,6 +8,9 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+
+## [0.3.0] - 2016-12-03
+
 ### Added
 - New flag `-indent` to change the indentation string for nested lists (default `\t`)
 
@@ -46,6 +49,7 @@ project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Initial public release.
 
-[Unreleased]: https://github.com/nochso/tocenize/compare/0.2.0...HEAD
+[Unreleased]: https://github.com/nochso/tocenize/compare/0.3.0...HEAD
+[0.3.0]: https://github.com/nochso/tocenize/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/nochso/tocenize/compare/0.1.0...0.2.0
 [0.1.0]: https://github.com/nochso/tocenize/compare/37dbbf6741f917c976cc77cfc84be81ea5d86e7d...0.1.0
