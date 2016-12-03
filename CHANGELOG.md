@@ -10,6 +10,9 @@ project adheres to [Semantic Versioning](http://semver.org/).
 [Unreleased]
 ------------
 
+### Fixed
+- Inline `[link]`s are now stripped from TOC titles.
+
 
 [0.3.0] - 2016-12-03
 --------------------
