@@ -11,6 +11,15 @@ project adheres to [Semantic Versioning](http://semver.org/).
 - [0.2.0 - 2016-11-20](#020---2016-11-20)
 - [0.1.0 - 2016-11-06](#010---2016-11-06)
 
+<!--
+Added      new features.
+Changed    changes in existing functionality.
+Deprecated once-stable features removed in upcoming releases.
+Removed    deprecated features removed in this release.
+Fixed      any bug fixes.
+Security   invite users to upgrade in case of vulnerabilities.
+-->
+
 [Unreleased]
 ------------
 
