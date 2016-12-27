@@ -14,7 +14,17 @@ import (
 	"github.com/pmezard/go-difflib/difflib"
 )
 
-var VERSION = "?"
+var (
+	VERSION  = "?"
+	exitCode int
+)
+
+// Possible exit status codes.
+const (
+	ExitOk         = iota // nothing has changed or needs to change
+	ExitDiff              // something has changed or needs to change
+	ExitWrongUsage        // error in usage
+)
 
 func main() {
 	log.SetFlags(0)
@@ -35,12 +45,12 @@ func main() {
 
 	if *showVersion {
 		fmt.Println(VERSION)
-		os.Exit(0)
+		os.Exit(ExitOk)
 	}
 	if flag.NArg() == 0 {
 		log.Println("too few arguments")
 		flag.Usage()
-		os.Exit(2)
+		os.Exit(ExitWrongUsage)
 	}
 
 	action := update
@@ -67,6 +77,7 @@ func main() {
 		}
 		log.SetPrefix("")
 	}
+	os.Exit(exitCode)
 }
 
 type actionFunc func(job tocenize.Job, a, b tocenize.Document) error
@@ -78,6 +89,9 @@ func runAction(path string, job tocenize.Job, action actionFunc) error {
 	}
 	toc := tocenize.NewTOC(doc, job)
 	newDoc, err := doc.Update(toc, job.ExistingOnly)
+	if newDoc.String() != doc.String() {
+		exitCode = ExitDiff
+	}
 	if err != nil {
 		return err
 	}
@@ -85,9 +99,14 @@ func runAction(path string, job tocenize.Job, action actionFunc) error {
 }
 
 func diff(job tocenize.Job, a, b tocenize.Document) error {
+	as := a.String()
+	bs := b.String()
+	if as != bs {
+		exitCode = ExitDiff
+	}
 	ud := difflib.UnifiedDiff{
-		A:        strings.SplitAfter(a.String(), "\n"),
-		B:        strings.SplitAfter(b.String(), "\n"),
+		A:        strings.SplitAfter(as, "\n"),
+		B:        strings.SplitAfter(bs, "\n"),
 		Context:  3,
 		FromFile: a.Path + " (old)",
 		ToFile:   a.Path + " (new)",

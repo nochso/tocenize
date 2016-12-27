@@ -26,6 +26,10 @@ Security   invite users to upgrade in case of vulnerabilities.
 ### Fixed
 - Inline `[link]`s are now stripped from TOC titles.
 
+### Changed
+- Exit code is 1 when any files have changed or need to change. When nothing
+  has changed or needs to change, the exit code is zero.
+
 
 [0.3.0] - 2016-12-03
 --------------------
