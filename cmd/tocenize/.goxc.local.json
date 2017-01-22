@@ -6,7 +6,7 @@
 		"downloads-page"
 	],
 	"BuildConstraints": "!plan9",
-	"ResourcesInclude": "../../README.md,../../CHANGELOG.md,../../LICENSE,*.md,LICENSE",
+	"ResourcesInclude": "*.md,LICENSE",
 	"ConfigVersion": "0.9",
 	"BuildSettings": {
 		"LdFlags": "-s -w",
