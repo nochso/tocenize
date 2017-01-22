@@ -25,6 +25,7 @@ Security   invite users to upgrade in case of vulnerabilities.
 
 ### Fixed
 - Inline `[link]`s are now stripped from TOC titles.
+- Ignore headings inside fenced code blocks.
 
 ### Changed
 - Exit code is 1 when any files have changed or need to change. When nothing

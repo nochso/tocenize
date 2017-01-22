@@ -40,8 +40,15 @@ func NewTOC(doc Document, pj Job) TOC {
 	prevLine := ""
 	anchors := make(map[string]int)
 	var heading *Heading
+	isFenced := false
 	for i, l := range doc.Lines {
 		heading = nil
+		if strings.HasPrefix(l, "```") {
+			isFenced = !isFenced
+		}
+		if isFenced {
+			continue
+		}
 		if strings.HasPrefix(l, "#") {
 			heading = NewHeadingATX(l, i)
 		} else if prevLine != "" && l != "" && (strings.Trim(l, "=") == "" || strings.Trim(l, "-") == "") {
