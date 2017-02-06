@@ -83,7 +83,7 @@ func main() {
 type actionFunc func(job tocenize.Job, a, b tocenize.Document) error
 
 func runAction(path string, job tocenize.Job, action actionFunc) error {
-	doc, err := tocenize.NewDocument(path)
+	doc, err := tocenize.NewDocFromPath(path)
 	if err != nil {
 		return err
 	}

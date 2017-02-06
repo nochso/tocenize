@@ -15,7 +15,7 @@ func TestDocument_Update(t *testing.T) {
 		MaxDepth: 99,
 	}
 	golden.TestDir(t, "test-fixtures", func(tc golden.Case) {
-		doc, err := NewDocument(tc.In.Path)
+		doc, err := NewDocFromPath(tc.In.Path)
 		if err != nil {
 			tc.T.Fatal(err)
 		}

@@ -18,16 +18,15 @@ type Document struct {
 	eol   string
 }
 
-func NewDocument(path string) (Document, error) {
-	doc := Document{
-		Path: path,
-	}
+func NewDocFromPath(path string) (Document, error) {
 	b, err := ioutil.ReadFile(path)
-	if err != nil {
-		return doc, err
-	}
-	doc.Lines, doc.eol = lines(string(b))
-	return doc, nil
+	return NewDocFromString(string(b), path), err
+}
+
+func NewDocFromString(s string, path string) Document {
+	doc := Document{Path: path}
+	doc.Lines, doc.eol = lines(s)
+	return doc
 }
 
 func lines(s string) (lines []string, eol string) {
