@@ -37,7 +37,6 @@ func (t TOC) String() string {
 
 func NewTOC(doc Document, pj Job) TOC {
 	toc := TOC{eol: doc.eol}
-	prevLine := ""
 	anchors := make(map[string]int)
 	var heading *Heading
 	isFenced := false
@@ -51,8 +50,8 @@ func NewTOC(doc Document, pj Job) TOC {
 		}
 		if strings.HasPrefix(l, "#") {
 			heading = NewHeadingATX(l, i)
-		} else if prevLine != "" && l != "" && (strings.Trim(l, "=") == "" || strings.Trim(l, "-") == "") {
-			heading = NewHeadingSE(prevLine, string(l[0]), i-1)
+		} else if i > 0 && doc.Lines[i-1] != "" && l != "" && (strings.Trim(l, "=") == "" || strings.Trim(l, "-") == "") {
+			heading = NewHeadingSE(doc.Lines[i-1], string(l[0]), i-1)
 		}
 		if heading != nil {
 			// increment counter each time we see this anchor
@@ -65,7 +64,6 @@ func NewTOC(doc Document, pj Job) TOC {
 				toc.Headings = append(toc.Headings, *heading)
 			}
 		}
-		prevLine = l
 	}
 	return toc
 }
