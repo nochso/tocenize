@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"unicode"
 
 	"github.com/writeas/go-strip-markdown"
 )
@@ -74,7 +75,12 @@ func (h Heading) Anchor() string {
 	// Strip Markdown
 	a := stripmd.Strip(h.Title)
 	a = strings.ToLower(a)
-	a = rePunct.ReplaceAllString(a, "")
+	a = strings.Map(func(r rune) rune {
+		if unicode.IsControl(r) && unicode.IsPunct(r) {
+			return -1
+		}
+		return r
+	}, a)
 	a = strings.Replace(a, " ", "-", -1)
 	if h.UniqueCounter > 0 {
 		a = fmt.Sprintf("%s-%d", a, h.UniqueCounter)
