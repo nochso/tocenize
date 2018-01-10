@@ -24,6 +24,10 @@ Security   invite users to upgrade in case of vulnerabilities.
 [Unreleased]
 ------------
 
+### Fixed
+- Unicode letters were missing from anchor links. They are now treated the same
+  as ASCII letters.
+
 [0.3.1] - 2017-01-22
 --------------------
 

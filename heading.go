@@ -68,7 +68,10 @@ func (h Heading) LinkTitle() string {
 	return t
 }
 
-var rePunct = regexp.MustCompile(`([^\w -]+)`)
+// adaptation of the anchor-cleanup used by Github's pipeline
+// https://github.com/jch/html-pipeline/blob/master/lib/html/pipeline/toc_filter.rb
+// \p{Word} = Letter, Mark, Number and Connector_Punctuation
+var rePunct = regexp.MustCompile(`([^\p{L}\p{M}\p{N}\p{Pc}\- ])`)
 
 func (h Heading) Anchor() string {
 	// Strip Markdown
