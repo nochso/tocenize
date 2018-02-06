@@ -76,7 +76,12 @@ var rePunct = regexp.MustCompile(`([^\p{L}\p{M}\p{N}\p{Pc}\- ])`)
 func (h Heading) Anchor() string {
 	// Strip Markdown
 	a := stripmd.Strip(h.Title)
-	a = strings.ToLower(a)
+
+	// When the first character of a heading is an ASCII character (a-z, A-Z),
+	// all the heading should be lowercased.   Otherwise no lowercasing should be performed.
+	if strings.ContainsAny(a[0:1], "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+		a = strings.ToLower(a)
+	}
 	a = rePunct.ReplaceAllString(a, "")
 	a = strings.Replace(a, " ", "-", -1)
 	if h.UniqueCounter > 0 {
