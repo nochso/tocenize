@@ -28,6 +28,10 @@ Security   invite users to upgrade in case of vulnerabilities.
 - Unicode letters were missing from anchor links. They are now included but not
   lower cased.
 
+### Changed
+- Updating files successfully will exit with status code 0.
+  `-t` will still exit with `tocenize.ExitDiff` when a file differs.
+
 [0.3.1] - 2017-01-22
 --------------------
 
