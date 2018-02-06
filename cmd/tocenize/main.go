@@ -89,9 +89,6 @@ func runAction(path string, job tocenize.Job, action actionFunc) error {
 	}
 	toc := tocenize.NewTOC(doc, job)
 	newDoc, err := doc.Update(toc, job.ExistingOnly)
-	if newDoc.String() != doc.String() {
-		exitCode = ExitDiff
-	}
 	if err != nil {
 		return err
 	}
