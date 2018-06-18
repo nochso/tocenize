@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
 - [Unreleased](#unreleased)
+- [0.4.0 - 2018-06-18](#040---2018-06-18)
 - [0.3.1 - 2017-01-22](#031---2017-01-22)
 - [0.3.0 - 2016-12-03](#030---2016-12-03)
 - [0.2.0 - 2016-11-20](#020---2016-11-20)
@@ -23,6 +24,9 @@ Security   invite users to upgrade in case of vulnerabilities.
 
 [Unreleased]
 ------------
+
+[0.4.0] - 2018-06-18
+--------------------
 
 ### Fixed
 - Unicode letters were missing from anchor links. They are now included but not
@@ -88,7 +92,8 @@ Security   invite users to upgrade in case of vulnerabilities.
 ### Added
 - Initial public release.
 
-[Unreleased]: https://github.com/nochso/tocenize/compare/0.3.1...HEAD
+[Unreleased]: https://github.com/nochso/tocenize/compare/0.4.0...HEAD
+[0.4.0]: https://github.com/nochso/tocenize/compare/0.3.1...0.4.0
 [0.3.1]: https://github.com/nochso/tocenize/compare/0.3.0...0.3.1
 [0.3.0]: https://github.com/nochso/tocenize/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/nochso/tocenize/compare/0.1.0...0.2.0
