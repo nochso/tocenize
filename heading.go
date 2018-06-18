@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/writeas/go-strip-markdown"
+	"github.com/nochso/go-strip-markdown"
 )
 
 // Indent string used for nesting. See `-indent`.
@@ -75,7 +75,7 @@ var rePunct = regexp.MustCompile(`([^\p{L}\p{M}\p{N}\p{Pc}\- ])`)
 
 func (h Heading) Anchor() string {
 	// Strip Markdown
-	a := stripmd.Strip(h.Title)
+	a := stripmd.StripImage(h.Title)
 	a = toLowerASCII(a)
 	a = rePunct.ReplaceAllString(a, "")
 	a = strings.Replace(a, " ", "-", -1)
