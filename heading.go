@@ -76,11 +76,26 @@ var rePunct = regexp.MustCompile(`([^\p{L}\p{M}\p{N}\p{Pc}\- ])`)
 func (h Heading) Anchor() string {
 	// Strip Markdown
 	a := stripmd.Strip(h.Title)
-	a = strings.ToLower(a)
+	a = toLowerASCII(a)
 	a = rePunct.ReplaceAllString(a, "")
 	a = strings.Replace(a, " ", "-", -1)
 	if h.UniqueCounter > 0 {
 		a = fmt.Sprintf("%s-%d", a, h.UniqueCounter)
 	}
 	return fmt.Sprintf("#%s", a)
+}
+
+// toLowerASCII is like strings.ToLower but considers ASCII only.
+// This should mirror Ruby's str.downcase(:ascii) which is used by Github's
+// pipeline: https://github.com/jch/html-pipeline/blob/master/lib/html/pipeline/toc_filter.rb
+func toLowerASCII(s string) string {
+	b := make([]byte, len(s))
+	for i := range b {
+		c := s[i]
+		if c >= 'A' && c <= 'Z' {
+			c += 'a' - 'A'
+		}
+		b[i] = c
+	}
+	return string(b)
 }
